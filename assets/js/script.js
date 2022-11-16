@@ -3,56 +3,82 @@ var btn1 = document.getElementById(`btn1`)
 var btn2 = document.getElementById(`btn2`)
 var btn3 = document.getElementById(`btn3`)
 var btn4 = document.getElementById(`btn4`)
+var btns = document.getElementById(`buttons`)
 var qText = document.getElementById(`text`)
+var timer = document.getElementById(`timer`)
 var questions = [
-    {q: `sample q`,
-     a: [`a`, `b`, `c`, `d`],
-     correct: `0`
+    {q: `JavaScript Boolean Data types can be:`,
+     a: [`a. Very Scary`, `b. Positive or Negative`, `c. True or False`, `d. Integers`],
+     correct: 2
     },
-    {q: `sample q 2`,
-    a: [`a2`, `b2`, `c2`, `d2`],
-    correct: `1`
-   },
-   {q: `sample q3`,
-   a: [`a3`, `b3`, `c3`, `d3`],
-   correct: `3`
-  },
-  {q: `sample q4`,
-  a: [`a4`, `b4`, `c4`, `d4`],
-  correct: `2`
- }
+    {q: `What HTML element contains JavaScript:`,
+    a: [`a. Code`, `b. Script`, `c. Style`, `d. Link`],
+    correct: 1
+    },
+    {q: `Arrays are declared inside of:`,
+    a: [`a. Square Brackets []`, `b. Curly Brackets {}`, `c. Parenthesis ()`, `d. Quotations ""`],
+    correct: 0
+    },
+    {q: `Method used to merge existing arrays:`,
+    a: [`a. merge()`, `b. appdend()`, `c. add()`, `d. concat()`],
+    correct: 3
+    },
+    {q: `DOM stands for:`,
+     a: [`a. Document Object Model`, `b. Dominant Element`, `c. Direct Object Manipoulation`, `d. Domo Arigato Mr. Roboto`],
+     correct: 0
+    },
+    {q: `Searching for and correcting errors in programming code is formerly known as:`,
+     a: [`a. Trial & Error`, `b. Debugging`, `c. Reverse Engineering`, `d. Version Control`],
+     correct: 1
+    }
 ]
-var i = 0
+var questionIndex = 0
+var secondsLeft = 60
 
 
 startBtn.addEventListener(`click`, startQuiz)
     
 function startQuiz(){
   
-   qText.innerHTML = `${questions[i].q}`
-   btn1.innerHTML = `${questions[i].a[0]}`
-   btn2.innerHTML = `${questions[i].a[1]}`
-   btn3.innerHTML = `${questions[i].a[2]}`
-   btn4.innerHTML = `${questions[i].a[3]}`
+nextQuestion(questionIndex)
 document.getElementById(`start`).classList.add(`hide`)
-btn1.addEventListener(`click`, nextQuestion )
+
+setTime();
+btns.addEventListener(`click`, nextQuestion )
     
-btn3.addEventListener(`click`, nextQuestion)
-
-btn4.addEventListener(`click`, nextQuestion)
-
-btn2.addEventListener(`click`, nextQuestion)
 
 }
  
 function nextQuestion(){
-    i++
-
-
-    qText.innerText = questions[i].q
-    btn1.innerHTML = `${questions[i].a[0]}`
-    btn2.innerHTML = `${questions[i].a[1]}`
-    btn3.innerHTML = `${questions[i].a[2]}`
-    btn4.innerHTML = `${questions[i].a[3]}`
+    
+if (questionIndex > 5) {
+  endGame()
+} else 
+    {qText.innerText = questions[questionIndex].q
+    btn1.innerHTML = `${questions[questionIndex].a[0]}`
+    btn2.innerHTML = `${questions[questionIndex].a[1]}`
+    btn3.innerHTML = `${questions[questionIndex].a[2]}`
+    btn4.innerHTML = `${questions[questionIndex].a[3]}`
+    questionIndex++
+    }
 
 }
+
+function setTime() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timer.innerText = secondsLeft + " seconds left";
+  
+      if(secondsLeft === 0) {
+        // Stops execution of action at set interval
+        clearInterval(timerInterval);
+        // Calls function to create and append image
+        console.log(`game over`);
+      }
+  
+    }, 1000);
+  }
+  function endGame(){
+    console.log(`game over`)
+  }
