@@ -9,76 +9,92 @@ var timer = document.getElementById(`timer`)
 var questions = [
     {q: `JavaScript Boolean Data types can be:`,
      a: [`a. Very Scary`, `b. Positive or Negative`, `c. True or False`, `d. Integers`],
-     correct: 2
+     correct: `c. True or False`
     },
+
     {q: `What HTML element contains JavaScript:`,
     a: [`a. Code`, `b. Script`, `c. Style`, `d. Link`],
-    correct: 1
+    correct: `b. Script`
     },
+
     {q: `Arrays are declared inside of:`,
     a: [`a. Square Brackets []`, `b. Curly Brackets {}`, `c. Parenthesis ()`, `d. Quotations ""`],
-    correct: 0
+    correct: `a. Square Brackets []`
     },
+
     {q: `Method used to merge existing arrays:`,
-    a: [`a. merge()`, `b. appdend()`, `c. add()`, `d. concat()`],
-    correct: 3
+    a: [`a. merge()`, `b. append()`, `c. add()`, `d. concat()`],
+    correct: `d. concat()`
     },
+
     {q: `DOM stands for:`,
      a: [`a. Document Object Model`, `b. Dominant Element`, `c. Direct Object Manipoulation`, `d. Domo Arigato Mr. Roboto`],
-     correct: 0
+     correct: `a. Document Object Model`
     },
+
     {q: `Searching for and correcting errors in programming code is formerly known as:`,
      a: [`a. Trial & Error`, `b. Debugging`, `c. Reverse Engineering`, `d. Version Control`],
-     correct: 1
+     correct: `b. Debugging`
     }
 ]
 var questionIndex = 0
 var secondsLeft = 60
-
+var score = 0
 
 startBtn.addEventListener(`click`, startQuiz)
     
-function startQuiz(){
-  
-nextQuestion(questionIndex)
-document.getElementById(`start`).classList.add(`hide`)
+function startQuiz()
+{
+  nextQuestion(questionIndex)
+  document.getElementById(`start`).classList.add(`hide`)
 
-setTime();
-btns.addEventListener(`click`, nextQuestion )
-    
+  setTime();
 
-}
+  btns.addEventListener(`click`, function(event) {
+    chosenQuestion = event.target
+    if (chosenQuestion.matches(`button`)){
+      nextQuestion(questionIndex)
+    }})
+
  
-function nextQuestion(){
-    
-if (questionIndex > 5) {
-  endGame()
-} else 
-    {qText.innerText = questions[questionIndex].q
+}
+
+
+function nextQuestion() {
+  if (questionIndex >= questions.length) {
+    endGame()
+  }
+  else {
+    qText.innerHTML = `${questions[questionIndex].q}`
     btn1.innerHTML = `${questions[questionIndex].a[0]}`
     btn2.innerHTML = `${questions[questionIndex].a[1]}`
     btn3.innerHTML = `${questions[questionIndex].a[2]}`
     btn4.innerHTML = `${questions[questionIndex].a[3]}`
     questionIndex++
-    }
-
+  }
+    
 }
 
-function setTime() {
-    // Sets interval in variable
+
+
+
+function setTime() 
+  {
+    
     var timerInterval = setInterval(function() {
       secondsLeft--;
       timer.innerText = secondsLeft + " seconds left";
   
       if(secondsLeft === 0) {
-        // Stops execution of action at set interval
         clearInterval(timerInterval);
-        // Calls function to create and append image
-        console.log(`game over`);
+        endGame()
       }
   
     }, 1000);
   }
-  function endGame(){
-    console.log(`game over`)
+
+  function endGame()
+  {
+    score = secondsLeft
+    console.log(score)
   }
