@@ -1,6 +1,6 @@
 # JavaScript Code QUIZ
 
-## Descrption:
+## Description:
 
 The site is a simple multiple choice quiz, that using DOM manipulation, cycles through several multiple choice questions about 
 
