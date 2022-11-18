@@ -6,6 +6,11 @@ var btn4 = document.getElementById(`btn4`)
 var btns = document.getElementById(`buttons`)
 var qText = document.getElementById(`text`)
 var timer = document.getElementById(`timer`)
+var answer = document.getElementById(`answer`)
+var scoreForm = document.getElementById(`highScoreForm`)
+var scoreList = document.getElementById(`highScoreList`)
+var submit = document.getElementById(`submit`)
+var userName = document.getElementById(`userName`)
 var questions = [
     {q: `JavaScript Boolean Data types can be:`,
      a: [`a. Very Scary`, `b. Positive or Negative`, `c. True or False`, `d. Integers`],
@@ -40,9 +45,11 @@ var questions = [
 var questionIndex = 0
 var secondsLeft = 60
 var score = 0
+const maxHighScore = 5
+var highScores = JSON.parse(localStorage.getItem(`highScores`)) || []
 
 startBtn.addEventListener(`click`, startQuiz)
-    
+
 function startQuiz()
 {
   nextQuestion(questionIndex)
@@ -53,7 +60,17 @@ function startQuiz()
   btns.addEventListener(`click`, function(event) {
     chosenQuestion = event.target
     if (chosenQuestion.matches(`button`)){
+      if(chosenQuestion.innerText == questions[questionIndex-1].correct){
       nextQuestion(questionIndex)
+      answer.innerText = `Correct!`
+    console.log(`correct`)} else {
+        nextQuestion(questionIndex)
+        
+        console.log(`wrong`)
+        secondsLeft = secondsLeft - 15
+        answer.innerText = `Wrong! -15 sec`
+
+    } 
     }})
 
  
@@ -83,18 +100,73 @@ function setTime()
     
     var timerInterval = setInterval(function() {
       secondsLeft--;
-      timer.innerText = secondsLeft + " seconds left";
-  
-      if(secondsLeft === 0) {
+      timer.innerText = `${secondsLeft} seconds left`
+
+      if(secondsLeft <= 0) {
         clearInterval(timerInterval);
         endGame()
       }
+      if (questionIndex >= questions.length) {clearInterval(timerInterval)}
+      
   
     }, 1000);
+    
   }
 
   function endGame()
-  {
+  { 
+    
     score = secondsLeft
-    console.log(score)
+    localStorage.setItem(`currentScore`, score)
+    timer.classList.add('hide')
+    answer.classList.add(`hide`)
+
+    btn1.classList.add(`hide`)
+    btn2.classList.add(`hide`)
+    btn3.classList.add(`hide`)
+    btn4.classList.add(`hide`)
+
+    if(score>0){
+      qText.innerText = `Good Job!!! Your score is: ${score}`;
+    console.log(score);
+    scoreForm.classList.remove(`hide`)
+    userName.addEventListener(`keyup`, () => {
+      submit.disabled = !userName.value
+    })
+    submit.addEventListener(`click`, function(e) {
+      e.preventDefault()
+      console.log(`clicked submit`)
+
+      var savedScore = {
+        storedScore: score,
+        name: userName.value
+      }
+
+      highScores.push(savedScore)
+      highScores.sort((a, b) =>  b.storedScore - a.storedScore)
+      highScores.splice(5)
+      localStorage.setItem(`highScores`, JSON.stringify(highScores))
+      console.log(highScores)
+      scoreList.innerHTML = highScores.map(highScores => {
+        return `<li> ${highScores.name}-${highScores.storedScore}</li>`}).join(``)
+
+
+    }
+    )
+  
+    }else{
+      qText.innerText = `Try Again`
+
+  document.getElementById(`start`).classList.remove(`hide`)
+
+  document.getElementById(`start`).innerHTML = `<button onclick="refresh(this)">Start</button>`
+
+
+    
+    }
+
   }
+  function refresh(){
+    window.location.reload("Refresh")
+  }
+

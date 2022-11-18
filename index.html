@@ -15,10 +15,20 @@
         <div id="text"><section id="startText" > 
             
             JavaScript Quiz: <br>
-            10 multiple choice questions, 60 seconds on the clock<br>
-            Wrong answer will deduct 10 seconds<br>
+            6 multiple choice questions, 60 seconds on the clock<br>
+            Wrong answer will deduct 15 seconds<br>
             Quiz is over when all questions are anwered or time runs out
             </section>
+        </div>
+        <div id="form">
+            <form id="highScoreForm" class="hide">
+              <div>  <label for="name">Enter Name</label> </div>
+               <div> <input type="text" name="name" id="userName"></div>
+               <div> <button id="submit">Submit</button></div>
+               <div> <button onclick="refresh(this)">Refresh</button></div>
+               <div>High Scores:</div>
+               <ol id="highScoreList"></ol>
+            </form>
         </div>
         <div id="buttons">
             <button id="btn1"></button>
